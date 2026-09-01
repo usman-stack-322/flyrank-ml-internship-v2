@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,88 +9,147 @@
 
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             line-height: 1.7;
             max-width: 950px;
-            margin: auto;
+            margin: 0 auto;
             padding: 40px 20px;
             color: #222;
             background: #f7f7f7;
         }
 
         article {
-            background: white;
+            background: #ffffff;
             padding: 45px;
             border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
         h1 {
             line-height: 1.2;
             margin-bottom: 10px;
+            color: #111;
         }
 
         h2 {
-            margin-top: 40px;
-            border-bottom: 1px solid #ddd;
+            margin-top: 45px;
             padding-bottom: 8px;
+            border-bottom: 1px solid #ddd;
+            color: #222;
         }
 
         h3 {
-            margin-top: 25px;
+            margin-top: 28px;
+            color: #333;
+        }
+
+        p {
+            margin: 14px 0;
         }
 
         .subtitle {
             color: #666;
             font-size: 18px;
+            margin-top: 0;
         }
 
+        /* Metrics */
         .metric-container {
             display: flex;
             gap: 15px;
             flex-wrap: wrap;
-            margin: 25px 0;
+            margin: 30px 0;
         }
 
         .metric {
+            flex: 1;
+            min-width: 170px;
             background: #f0f0f0;
             padding: 18px;
             border-radius: 8px;
-            min-width: 170px;
         }
 
         .metric strong {
             display: block;
             font-size: 28px;
+            margin-bottom: 4px;
         }
 
+        /* Highlighted note */
+        .note {
+            padding: 16px 18px;
+            background: #f5f5f5;
+            border-left: 4px solid #555;
+            margin: 22px 0;
+            border-radius: 4px;
+        }
+
+        /* Tables */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            margin: 22px 0;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid #ddd;
-            padding: 10px;
+            padding: 11px;
             text-align: left;
         }
 
         th {
             background: #eee;
+            font-weight: bold;
         }
 
-        .note {
-            padding: 15px;
-            background: #f5f5f5;
-            border-left: 4px solid #555;
-            margin: 20px 0;
+        /* Lists */
+        ol,
+        ul {
+            padding-left: 25px;
         }
 
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* Links */
+        a {
+            color: #222;
+            font-weight: bold;
+        }
+
+        /* Footer */
         footer {
             margin-top: 50px;
             padding-top: 20px;
             border-top: 1px solid #ddd;
             color: #666;
+            font-size: 14px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 700px) {
+            body {
+                padding: 20px 10px;
+            }
+
+            article {
+                padding: 25px 20px;
+            }
+
+            .metric {
+                min-width: 100%;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th,
+            td {
+                padding: 8px;
+            }
         }
     </style>
 </head>
@@ -108,6 +168,10 @@
         A machine-learning approach for prioritizing pages for content review
     </p>
 
+    <!-- ================================================== -->
+    <!-- KEY METRICS -->
+    <!-- ================================================== -->
+
     <div class="metric-container">
 
         <div class="metric">
@@ -117,7 +181,7 @@
 
         <div class="metric">
             <strong>0.320</strong>
-            Week-4 baseline F1
+            Week-4 Baseline F1
         </div>
 
         <div class="metric">
@@ -127,7 +191,7 @@
 
         <div class="metric">
             <strong>38</strong>
-            Model features
+            Model Features
         </div>
 
     </div>
@@ -143,12 +207,22 @@
         This project investigates which web pages should be prioritized for
         content refresh using observed search performance and opportunity
         signals. An anonymized dataset of 30,000 pages was used to build a
-        binary classification model for identifying declining pages.
-        A Random Forest model using 38 features was evaluated with a
-        time-aware 80/20 split. The model measured an F1 score of 0.837 on
-        the test split, compared with 0.320 for the Week-4 baseline.
-        The results provide a stronger directional signal for prioritization
-        in this dataset and are intended for decision-support and human review.
+        binary classification model for identifying pages with declining
+        performance.
+    </p>
+
+    <p>
+        A Random Forest classifier using 38 features was evaluated with a
+        time-aware 80/20 split. The model achieved an F1 score of
+        <strong>0.837</strong> on the test split, compared with
+        <strong>0.320</strong> for the Week-4 baseline.
+    </p>
+
+    <p>
+        The results provide a stronger directional signal for prioritizing
+        pages for review in this dataset. The model is intended as a
+        decision-support tool and does not automatically determine whether
+        a page should be refreshed.
     </p>
 
 
@@ -175,9 +249,9 @@
     </div>
 
     <p>
-        The decision supported by this analysis is the prioritization of pages
-        for content review and potential refresh. The model is not intended
-        to automatically decide that a page must be refreshed.
+        The decision supported by this analysis is the prioritization of
+        pages for content review and potential refresh. The model is not
+        intended to automatically decide that a page must be refreshed.
     </p>
 
 
@@ -194,25 +268,25 @@
 
     <p>
         The modeling dataset contains search, content, engagement, freshness,
-        and traffic-related signals. The analysis uses public-safe,
-        anonymized information and does not expose client names, private
-        queries, credentials, or raw private exports.
+        and traffic-related signals. The analysis uses anonymized information
+        and does not expose client names, private queries, credentials, or
+        raw private exports.
     </p>
 
     <h3>Target</h3>
 
     <p>
         A binary target was created from the observed trend direction.
-        Pages with a trend direction of "down" were assigned the declining
-        class.
+        Pages with a trend direction of <strong>"down"</strong> were assigned
+        to the declining class.
     </p>
 
-    <h3>Important data considerations</h3>
+    <h3>Important Data Considerations</h3>
 
     <p>
         The analysis focuses on observed page-level signals available for
         modeling. Identifiers and outcome-related fields that could create
-        leakage were excluded from the final feature set.
+        data leakage were excluded from the final feature set.
     </p>
 
 
@@ -233,30 +307,31 @@
 
     <p>
         The final model used 38 features covering search demand, competition,
-        content characteristics, historical traffic, engagement,
-        content age, freshness, CTR, average position, and related signals.
+        content characteristics, historical traffic, engagement, content
+        age, freshness, click-through rate (CTR), average search position,
+        and related signals.
     </p>
 
-    <h3>Validation design</h3>
+    <h3>Validation Design</h3>
 
     <p>
         The model was evaluated using a time-aware 80/20 split. The earlier
-        80% of observations were used for training and the later 20% were
-        used for testing.
+        80% of observations were used for training, while the later 20%
+        were used for testing.
     </p>
 
     <p>
         This design was chosen to provide a more realistic evaluation than
-        an easier random split and to reduce the risk of overly optimistic
+        a random split and to reduce the risk of overly optimistic
         validation results.
     </p>
 
-    <h3>Leakage audit</h3>
+    <h3>Leakage Audit</h3>
 
     <p>
         The final feature set was checked for obvious leakage fields.
         Trend direction, trend percentage, the target label, content IDs,
-        and client IDs were not used as model features.
+        and client IDs were excluded from the model features.
     </p>
 
 
@@ -267,8 +342,8 @@
     <h2>4. Results</h2>
 
     <p>
-        The Random Forest measured an F1 score of <strong>0.837</strong>
-        on the time-aware test split.
+        The Random Forest achieved an F1 score of
+        <strong>0.837</strong> on the time-aware test split.
     </p>
 
     <p>
@@ -277,23 +352,27 @@
     </p>
 
     <table>
-        <tr>
-            <th>Model</th>
-            <th>Validation</th>
-            <th>F1 Score</th>
-        </tr>
+        <thead>
+            <tr>
+                <th>Model</th>
+                <th>Validation</th>
+                <th>F1 Score</th>
+            </tr>
+        </thead>
 
-        <tr>
-            <td>Week-4 baseline</td>
-            <td>Comparison split</td>
-            <td>0.320</td>
-        </tr>
+        <tbody>
+            <tr>
+                <td>Week-4 Baseline</td>
+                <td>Comparison Split</td>
+                <td>0.320</td>
+            </tr>
 
-        <tr>
-            <td>Random Forest</td>
-            <td>Time-aware 80/20 split</td>
-            <td>0.837</td>
-        </tr>
+            <tr>
+                <td>Random Forest</td>
+                <td>Time-Aware 80/20 Split</td>
+                <td>0.837</td>
+            </tr>
+        </tbody>
     </table>
 
     <div class="note">
@@ -308,7 +387,7 @@
     <!-- 5. LIMITATIONS -->
     <!-- ================================================== -->
 
-    <h2>5. Limitations & Honest Framing</h2>
+    <h2>5. Limitations &amp; Honest Framing</h2>
 
     <p>
         This analysis is observational. The model identifies patterns in
@@ -339,19 +418,34 @@
         signal for decline.
     </p>
 
-    <h3>Recommended workflow</h3>
+    <h3>Recommended Workflow</h3>
 
     <ol>
-        <li>Review pages with the strongest decline signal first.</li>
-        <li>Check recent impressions, clicks, position, and engagement.</li>
-        <li>Review content relevance, search intent, and freshness.</li>
-        <li>Decide whether refresh, monitoring, or another action is appropriate.</li>
-        <li>Keep the final decision with a human reviewer.</li>
+        <li>
+            Review pages with the strongest decline signal first.
+        </li>
+
+        <li>
+            Check recent impressions, clicks, search position, and engagement.
+        </li>
+
+        <li>
+            Review content relevance, search intent, and freshness.
+        </li>
+
+        <li>
+            Decide whether refresh, monitoring, or another action is
+            appropriate.
+        </li>
+
+        <li>
+            Keep the final decision with a human reviewer.
+        </li>
     </ol>
 
     <p>
         Higher model scores indicate higher review priority; they do not
-        guarantee that a refresh will produce improvement.
+        guarantee that a content refresh will produce an improvement.
     </p>
 
 
@@ -398,18 +492,27 @@
     <!-- ================================================== -->
     <!-- 9. ACKNOWLEDGMENTS -->
     <!-- ================================================== -->
-<h2>9. Acknowledgments &amp; Data Credit</h2>
+
+    <h2>9. Acknowledgments &amp; Data Credit</h2>
 
     <p>
-        Built on the FlyRank ML Internship dataset. Data and platform credit: 
-        <a href="https://flyrank.ai">FlyRank</a>.
+        Built on the FlyRank ML Internship dataset.
+        Data and platform credit:
+        <a href="https://flyrank.ai" target="_blank" rel="noopener noreferrer">
+            FlyRank
+        </a>.
     </p>
+
+
+    <!-- ================================================== -->
+    <!-- FOOTER -->
+    <!-- ================================================== -->
 
     <footer>
         <p>
-            This research paper presents observed results for
-            decision-support and prioritization. It does not make causal
-            claims about search algorithms or content-refresh outcomes.
+            This research paper presents observed results for decision-support
+            and prioritization. It does not make causal claims about search
+            algorithms or content-refresh outcomes.
         </p>
     </footer>
 
@@ -417,3 +520,4 @@
 
 </body>
 </html>
+```
