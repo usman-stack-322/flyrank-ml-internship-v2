@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Content Refresh Opportunity Scoring</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.7;
+            max-width: 950px;
+            margin: auto;
+            padding: 40px 20px;
+            color: #222;
+            background: #f7f7f7;
+        }
+
+        article {
+            background: white;
+            padding: 45px;
+            border-radius: 12px;
+        }
+
+        h1 {
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            margin-top: 40px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            margin-top: 25px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 18px;
+        }
+
+        .metric-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 25px 0;
+        }
+
+        .metric {
+            background: #f0f0f0;
+            padding: 18px;
+            border-radius: 8px;
+            min-width: 170px;
+        }
+
+        .metric strong {
+            display: block;
+            font-size: 28px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #eee;
+        }
+
+        .note {
+            padding: 15px;
+            background: #f5f5f5;
+            border-left: 4px solid #555;
+            margin: 20px 0;
+        }
+
+        footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+<article>
+
+    <!-- ================================================== -->
+    <!-- TITLE -->
+    <!-- ================================================== -->
+
+    <h1>Content Refresh Opportunity Scoring</h1>
+
+    <p class="subtitle">
+        A machine-learning approach for prioritizing pages for content review
+    </p>
+
+    <div class="metric-container">
+
+        <div class="metric">
+            <strong>0.837</strong>
+            Random Forest F1
+        </div>
+
+        <div class="metric">
+            <strong>0.320</strong>
+            Week-4 baseline F1
+        </div>
+
+        <div class="metric">
+            <strong>30,000</strong>
+            Pages
+        </div>
+
+        <div class="metric">
+            <strong>38</strong>
+            Model features
+        </div>
+
+    </div>
+
+
+    <!-- ================================================== -->
+    <!-- ABSTRACT -->
+    <!-- ================================================== -->
+
+    <h2>Abstract</h2>
+
+    <p>
+        This project investigates which web pages should be prioritized for
+        content refresh using observed search performance and opportunity
+        signals. An anonymized dataset of 30,000 pages was used to build a
+        binary classification model for identifying declining pages.
+        A Random Forest model using 38 features was evaluated with a
+        time-aware 80/20 split. The model measured an F1 score of 0.837 on
+        the test split, compared with 0.320 for the Week-4 baseline.
+        The results provide a stronger directional signal for prioritization
+        in this dataset and are intended for decision-support and human review.
+    </p>
+
+
+    <!-- ================================================== -->
+    <!-- 1. INTRODUCTION -->
+    <!-- ================================================== -->
+
+    <h2>1. Introduction / Problem Statement</h2>
+
+    <p>
+        Content teams often need to decide which pages should be reviewed
+        first when resources for content refresh are limited.
+    </p>
+
+    <p>
+        The research question for this project is:
+    </p>
+
+    <div class="note">
+        <strong>
+            Which pages should be prioritized for content refresh based on
+            their observed search performance and opportunity signals?
+        </strong>
+    </div>
+
+    <p>
+        The decision supported by this analysis is the prioritization of pages
+        for content review and potential refresh. The model is not intended
+        to automatically decide that a page must be refreshed.
+    </p>
+
+
+    <!-- ================================================== -->
+    <!-- 2. DATA -->
+    <!-- ================================================== -->
+
+    <h2>2. Data</h2>
+
+    <p>
+        The analysis uses an anonymized FlyRank content-refresh dataset
+        containing 30,000 page-level observations.
+    </p>
+
+    <p>
+        The modeling dataset contains search, content, engagement, freshness,
+        and traffic-related signals. The analysis uses public-safe,
+        anonymized information and does not expose client names, private
+        queries, credentials, or raw private exports.
+    </p>
+
+    <h3>Target</h3>
+
+    <p>
+        A binary target was created from the observed trend direction.
+        Pages with a trend direction of "down" were assigned the declining
+        class.
+    </p>
+
+    <h3>Important data considerations</h3>
+
+    <p>
+        The analysis focuses on observed page-level signals available for
+        modeling. Identifiers and outcome-related fields that could create
+        leakage were excluded from the final feature set.
+    </p>
+
+
+    <!-- ================================================== -->
+    <!-- 3. METHODOLOGY -->
+    <!-- ================================================== -->
+
+    <h2>3. Methodology</h2>
+
+    <h3>Model</h3>
+
+    <p>
+        A Random Forest classifier was used to identify pages showing a
+        declining trend.
+    </p>
+
+    <h3>Features</h3>
+
+    <p>
+        The final model used 38 features covering search demand, competition,
+        content characteristics, historical traffic, engagement,
+        content age, freshness, CTR, average position, and related signals.
+    </p>
+
+    <h3>Validation design</h3>
+
+    <p>
+        The model was evaluated using a time-aware 80/20 split. The earlier
+        80% of observations were used for training and the later 20% were
+        used for testing.
+    </p>
+
+    <p>
+        This design was chosen to provide a more realistic evaluation than
+        an easier random split and to reduce the risk of overly optimistic
+        validation results.
+    </p>
+
+    <h3>Leakage audit</h3>
+
+    <p>
+        The final feature set was checked for obvious leakage fields.
+        Trend direction, trend percentage, the target label, content IDs,
+        and client IDs were not used as model features.
+    </p>
+
+
+    <!-- ================================================== -->
+    <!-- 4. RESULTS -->
+    <!-- ================================================== -->
+
+    <h2>4. Results</h2>
+
+    <p>
+        The Random Forest measured an F1 score of <strong>0.837</strong>
+        on the time-aware test split.
+    </p>
+
+    <p>
+        The Week-4 baseline measured an F1 score of
+        <strong>0.320</strong> on the comparison evaluation.
+    </p>
+
+    <table>
+        <tr>
+            <th>Model</th>
+            <th>Validation</th>
+            <th>F1 Score</th>
+        </tr>
+
+        <tr>
+            <td>Week-4 baseline</td>
+            <td>Comparison split</td>
+            <td>0.320</td>
+        </tr>
+
+        <tr>
+            <td>Random Forest</td>
+            <td>Time-aware 80/20 split</td>
+            <td>0.837</td>
+        </tr>
+    </table>
+
+    <div class="note">
+        <strong>Interpretation:</strong>
+        The observed result suggests that the Random Forest provides a
+        stronger directional signal for identifying declining pages in this
+        dataset.
+    </div>
+
+
+    <!-- ================================================== -->
+    <!-- 5. LIMITATIONS -->
+    <!-- ================================================== -->
+
+    <h2>5. Limitations & Honest Framing</h2>
+
+    <p>
+        This analysis is observational. The model identifies patterns in
+        the available data but does not establish causal relationships.
+    </p>
+
+    <p>
+        In particular, a high decline probability does not prove that
+        refreshing a page will cause its search performance to improve.
+    </p>
+
+    <p>
+        The model should therefore be treated as a decision-support and
+        prioritization tool. Human reviewers should consider content quality,
+        search intent, relevance, freshness, and other contextual factors
+        before taking action.
+    </p>
+
+
+    <!-- ================================================== -->
+    <!-- 6. RECOMMENDATIONS -->
+    <!-- ================================================== -->
+
+    <h2>6. Ranked Recommendations</h2>
+
+    <p>
+        The action playbook ranks pages according to their observed model
+        signal for decline.
+    </p>
+
+    <h3>Recommended workflow</h3>
+
+    <ol>
+        <li>Review pages with the strongest decline signal first.</li>
+        <li>Check recent impressions, clicks, position, and engagement.</li>
+        <li>Review content relevance, search intent, and freshness.</li>
+        <li>Decide whether refresh, monitoring, or another action is appropriate.</li>
+        <li>Keep the final decision with a human reviewer.</li>
+    </ol>
+
+    <p>
+        Higher model scores indicate higher review priority; they do not
+        guarantee that a refresh will produce improvement.
+    </p>
+
+
+    <!-- ================================================== -->
+    <!-- 7. ARTIFACTS -->
+    <!-- ================================================== -->
+
+    <h2>7. Artifacts</h2>
+
+    <p>
+        The analysis produced a ranked recommendation queue and supporting
+        summary artifacts for reuse in the research workflow.
+    </p>
+
+    <ul>
+        <li>Ranked content recommendation queue</li>
+        <li>Priority-level distribution</li>
+        <li>Top-20 decline-signal summary</li>
+    </ul>
+
+
+    <!-- ================================================== -->
+    <!-- 8. REPRODUCIBILITY -->
+    <!-- ================================================== -->
+
+    <h2>8. Reproducibility</h2>
+
+    <p>
+        The project notebooks and supporting work are maintained in the
+        project repository.
+    </p>
+
+    <p>
+        Repository:
+        <strong>flyrank-ml-internship-v2</strong>
+    </p>
+
+    <p>
+        The analysis workflow includes the research question, task framing,
+        validation, leakage audit, action playbook, and capstone artifacts.
+    </p>
+
+
+    <!-- ================================================== -->
+    <!-- 9. ACKNOWLEDGMENTS -->
+    <!-- ================================================== -->
+
+    <h2>9. Acknowledgments & Data Credit</h2>
+
+    <p>
+        Built on the FlyRank ML Internship dataset.
+    </p>
+
+    <p>
+        Data and internship information:
+        <a href="https://flyrank.ai" target="_blank">
+            https://flyrank.ai
+        </a>
+    </p>
+
+    <footer>
+        <p>
+            This research paper presents observed results for
+            decision-support and prioritization. It does not make causal
+            claims about search algorithms or content-refresh outcomes.
+        </p>
+    </footer>
+
+</article>
+
+</body>
+</html>
